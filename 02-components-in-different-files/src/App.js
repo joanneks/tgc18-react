@@ -1,4 +1,6 @@
 import React from 'react';
+import BorderedImage from './BorderedImage';
+import Alert from './Alert';
 
 function sayHello() {
   return "Hello"
@@ -15,33 +17,13 @@ function foobar() {
   return <h3>Foobar!</h3>
 }
 
-// A component is 
-// 1. a function
-// 2. returns JSX
-// 3. its first alphabet is uppercase
-// 4. can be used in JSX as if it is a HTML element
-// The first argument of a Component function
-// is all its props in an object
-function Alert(props) {
- // for Alert, the `message` props will be the error message to display
-  return <div style={{
-    'backgroundColor': props.bgColor
-  }}>{props.message}</div>;
-}
+
 
 function PuppyImage() {
   return <img src={require('./puppy.jpg')}/>
 }
 
-function BorderedImage() {
-  return (
-    <img src={require('./ramen.jpg')} style={
-      {
-        "border":"4px solid red"
-      }
-    }/>
-  ) 
-}
+
 
 function CustomizedImage(props) {
   return (
