@@ -1,3 +1,8 @@
 body {
     background-color: red;
+    background-image: url(waffle.jpg);
+}
+
+.urgent {
+    background-color: yellow;
 }

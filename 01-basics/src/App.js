@@ -17,7 +17,7 @@ function App() {
           backgroundColor:"yellow"
         }
       }>Hello World</h1>
-      <p>Let there be light!</p>
+      <p className="urgent">Let there be light!</p>
       <img src={logo}/>
       <img src={require('./apples.jpg')}/>
     </React.Fragment>
