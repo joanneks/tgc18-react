@@ -7,7 +7,7 @@ class App extends React.Component {
       <div>
         <h1>Our React App</h1>
         <NumberBox initialValue={10}/>
-        <NumberBox initialValue={0}/>
+        <NumberBox initialValue={-5}/>
         <AlertBox message="Hello world"/>
       </div>
     );

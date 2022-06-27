@@ -13,16 +13,56 @@ export default class NumberBox extends React.Component {
     state = {
         "count": this.props.initialValue
     }
+
+    // ARROW FUNCTION
+    // event handlers should always be ARROW FUNCTIONS
+    click = () => {
+        // DO NOT MUTATE (i.e change) A STATE VARIABLE DIRECTLY
+        // BECAUSE REACT CANNOT DETECT CHANGES TO THE STATE
+        // ONLY ON THE NEXT RENDER WILL YOU SEE THE CHANGE
+        // this.state.count += 1;
+        // this.state.count++;
+        // this.state.count = this.state.count + 1;
+
+        // correct way to update the state
+        // React can detect changes to the state via the setState function
+        this.setState({
+            'count': this.state.count + 1
+        })
+    }
+
+    displayStar() {
+        if (this.state.count % 2 ===0) {
+            return "*"
+        } else {
+            return "";
+        }
+    }
    
     render() {
+
+        let stars = "";
+        if (this.state.count % 2 === 0) {
+            stars = "*";
+        }
+
         return (
             <div style={
                 {
-                    'border':'1px solid black',
+                    'border':'10px solid',
+                    'borderColor': this.state.count > 0 ? "green" : "red",
                     'padding':'10px',
-                    'width': '20px'
+                    'width': '20px',
+                    'fontSize': `${this.state.count + 10}px`,
+                    
                 }
-            }>{this.state.count}</div>
+            } onClick={this.click}>{this.state.count}
+            {this.displayStar()}
+            {this.state.count % 2 === 0 ? '*' : ''}
+            {stars}
+            {this.state.count % 2 === 0 && "*"}
+            
+            </div>
         )
     }
 }
