@@ -2,7 +2,7 @@ import React from 'react';
 import BorderedImage from './BorderedImage';
 import Alert from './Alert';
 import {sayHello, sayGoodbye, foobar} from './funcs';
-
+import ClickCount from './ClickCount';
 
 
 function PuppyImage() {
@@ -33,6 +33,8 @@ export default function App() {
       {sayGoodbye()}
       {foobar()}
       {/* Create and render an instance of the Alert component */}
+      <ClickCount/>
+      <ClickCount/>
       <Alert bgColor="red" message="Collision detected"/>
       <Alert bgColor="yellow" message="Fuel low"/>
       <PuppyImage/>
