@@ -8,7 +8,8 @@ export default class SurveyForm extends React.Component {
         'email':'',
         'colour':'',
         'country':'singapore',
-        'fruits':[]
+        'fruits':[],
+        'hasSubmitted':false
     }
 
     updateName = (event) =>{
@@ -108,6 +109,36 @@ export default class SurveyForm extends React.Component {
         
     }
 
+    getNameError = () => {
+        if (this.state.name.length < 3) {
+            return "The name must have more 3 or more characters"
+        } else if (this.state.name > 20) {
+            return "The name must not exceed 20 characters"
+        } else {
+            return null
+        }
+    }
+
+    getEmailError = () => {
+        if (this.state.email.includes('@') === false) {
+            return "The email is in the wrong format";
+        } else {
+            return null;
+        }
+    }
+
+    submit = () => {
+     
+        this.setState({
+            'hasSubmitted': true
+        })
+
+        // check if there is no error
+        if (this.getNameError()===null && this.getEmailError()===null) {
+            alert("All data is ok!")
+        } 
+    }
+
     render() {
         return (
             <div>
@@ -118,6 +149,7 @@ export default class SurveyForm extends React.Component {
                            value={this.state.name}
                            onChange={this.updateName}
                     />
+                    {this.getNameError() && this.state.hasSubmitted ? <span className="error">{this.getNameError()}</span> : ""}
                 </div>
                 <div>
                     <label>Email:</label>
@@ -126,6 +158,7 @@ export default class SurveyForm extends React.Component {
                            value={this.state.email}
                            onChange={this.updateEmail}       
                     />
+                    {this.getEmailError() && this.state.hasSubmitted ? <span className="error">{this.getEmailError()}</span> : ''}
                 </div>
                 <div>
                     <label>Favorite Color:</label>
@@ -177,7 +210,7 @@ export default class SurveyForm extends React.Component {
                     <input type="checkbox" onChange={this.updateFruits} className="form-check-input" name="fruits" value="durian"/>
                     <label class="form-check-label" >Durian</label>
                 </div>
-
+                <button onClick={this.submit}>Submit</button>
             </div>
         )
     }
