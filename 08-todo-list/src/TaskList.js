@@ -50,6 +50,49 @@ export default class TaskList extends React.Component {
         })
     }
 
+    updateTaskDone = (task) =>{
+        // how we do modify an object
+        // task.done = !task.done;  ==> NOT ALLOW TO MUTATE AN OBJECT DIRECTLY
+        let clonedTask = {...task, done: !task.done};
+
+        // replace an element into the middle of an array
+
+        // 1. find the index of the modified task
+        // let index = -1;
+        // for (let i =0; i < this.state.tasks.length; i++) {
+        //     if (this.state.tasks[i]._id === clonedTask._id) {
+        //         index = i;
+        //         break;
+        //     }
+        // }
+
+        let index = this.state.tasks.findIndex(function(t){
+            if (t._id === clonedTask._id) {
+                return true;
+            } else {
+                return false;
+            }
+        })
+
+        // non-functional updating an array
+        // let clonedTaskArray = this.state.tasks.slice();
+        // clonedTaskArray[index] = clonedTask;
+        // this.setState({
+        //     tasks: clonedTaskArray
+        // })
+
+        this.setState({
+            tasks: [ 
+                    ...this.state.tasks.slice(0, index),
+                    clonedTask,
+                    ...this.state.tasks.slice(index+1)
+                ]
+        })
+
+  
+  
+    }
+
     render() {
         return (<React.Fragment>
             <h1>Todo List</h1>
@@ -59,7 +102,10 @@ export default class TaskList extends React.Component {
                         {t.description}
                         <input type="checkbox"
                                className="form-check-input ms-3" 
-                               checked={t.done}/>
+                               checked={t.done}
+                               onChange={()=>{
+                                    this.updateTaskDone(t)
+                               }}/>
                     </li>
                 </React.Fragment>))
             }
