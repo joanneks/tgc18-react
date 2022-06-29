@@ -1,0 +1,18 @@
+[
+    {
+        "display": "Apple",
+        "value": "apple"
+    },
+    {
+        "display": "Banana",
+       "value": "banana"
+    },
+    {
+        "display": "Cherry",
+        "value": "cherries"
+    },
+    {
+        "display": "Durian",
+        "value":"durian"
+    }
+]
