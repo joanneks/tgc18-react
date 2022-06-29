@@ -1,0 +1,14 @@
+[
+    {
+        "value":"support",
+        "display":"Support"
+    },
+    {
+        "value":"sales",
+        "display":"Sales"
+    },
+    {
+        "value":"marketing",
+        "display":"Marketing"
+    }
+]

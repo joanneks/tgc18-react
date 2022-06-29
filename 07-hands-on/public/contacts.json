@@ -1,0 +1,14 @@
+[
+    {
+        "display":"Phone",
+        "value":"phone"
+    },
+    {
+        "display":"Email",
+        "value":"email"
+    },
+    {
+        "display":"Slow Mail",
+        "value":"slow-mail"
+    }
+]
