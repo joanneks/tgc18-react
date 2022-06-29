@@ -1,0 +1,12 @@
+[
+    {
+        "_id": 1,
+        "name": "ACME Anvil",
+        "cost": 10000
+    },
+    {
+        "_id": 2,
+        "name": "ACME Screwdriver",
+        "cost": 5000
+    }
+]
