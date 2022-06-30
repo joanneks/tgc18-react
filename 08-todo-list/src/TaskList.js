@@ -118,6 +118,12 @@ export default class TaskList extends React.Component {
                     }}
 
                 >Edit</button>
+                <button className="ms-3 btn btn-danger btn-sm"
+                onClick={()=>{
+                    this.deleteTask(task)
+                }}>
+                 Delete       
+                </button>
             </li>
         )
     }
@@ -161,11 +167,26 @@ export default class TaskList extends React.Component {
         })
     }
 
+    deleteTask = (task) => {
+        // find the index of the task that we want to delete
+        let index = this.state.tasks.findIndex( t => t._id === task._id);
+
+        // remove from the middle technique
+        const cloned = [
+            ...this.state.tasks.slice(0, index),
+            ...this.state.tasks.slice(index+1)
+        ]
+
+        this.setState({
+            tasks: cloned
+        })
+    }
+
     render() {
         return (<React.Fragment>
             <h1>Todo List</h1>
             {
-                this.state.tasks.map(t => (<React.Fragment key={t._id}>
+                this.state.tasks.map( (t) => (<React.Fragment key={t._id}>
 
                     {this.state.taskBeingEdited === null || this.state.taskBeingEdited._id !== t._id ?
                         this.displayTask(t)
