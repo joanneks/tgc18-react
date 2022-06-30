@@ -1,4 +1,6 @@
 import React from 'react'
+import DisplaySignupForm from './DisplaySignupForm'
+import DisplaySignupSuccess from './DisplaySignupSuccess'
 
 export default class SignupForm extends React.Component {
     state = {
@@ -13,43 +15,25 @@ export default class SignupForm extends React.Component {
         })
     }
 
+
     render() {
-        return (
-            <React.Fragment>
-                {
-                    this.state.submitted === false ?
-                        <div style={{ margin: "10px" }}>
-                            <div>
-                                <label>Email:</label>
-                                <input type="text"
-                                    name="email"
-                                    value={this.state.email}
-                                    onChange={this.updateFormField}
-                                />
-                            </div>
-                            <div>
-                                <label>Password</label>
-                                <input type="password"
-                                    name="password"
-                                    value={this.state.password}
-                                    onChange={this.updateFormField}
-                                />
-                            </div>
-                            <button onClick={() => {
-                                this.setState({
-                                    submitted: true
-                                })
-                            }}>Sign up</button>
-                        </div>
-            :
-                <p>Thank you for registering!</p>
-            
-        
+       
+        if (this.state.submitted == false) {
+            return <DisplaySignupForm 
+                   email={this.state.email}
+                   password={this.state.password}
+                   updateFormField={this.updateFormField}
+                   register={() => {
+                    this.setState({
+                        submitted: true
+                    })
+                }}
+            />
+        } else {
+            return <DisplaySignupSuccess
+                    email={this.state.email}
+            />
         }
-            
-
-
-            </React.Fragment>
-        )
+  
     }
 }
