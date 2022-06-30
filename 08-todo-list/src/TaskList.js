@@ -19,7 +19,9 @@ export default class TaskList extends React.Component {
                 done: false
             }
         ],
-        newTaskName:''
+        newTaskName: '',
+        taskBeingEdited: null,  // alternatively, store the _id of the task that is being edited
+        modifiedTaskName:''
     }
 
     updateFormField = (event) => {
@@ -27,13 +29,13 @@ export default class TaskList extends React.Component {
         // `event.target.value` will contain the value of the target element
         // `event.target.name` should contain the name of the key that we want to modify in the state
         this.setState({
-            [event.target.name] : event.target.value
+            [event.target.name]: event.target.value
         })
 
     }
-    
-    addNewTask = () =>{
-        let newTask ={
+
+    addNewTask = () => {
+        let newTask = {
             _id: Math.floor(Math.random() * 100000 + 1),
             description: this.state.newTaskName,
             done: false
@@ -46,14 +48,14 @@ export default class TaskList extends React.Component {
 
         // step 3: replace the cloned array into the state
         this.setState({
-            'tasks':cloned
+            'tasks': cloned
         })
     }
 
-    updateTaskDone = (task) =>{
+    updateTaskDone = (task) => {
         // how we do modify an object
         // task.done = !task.done;  ==> NOT ALLOW TO MUTATE AN OBJECT DIRECTLY
-        let clonedTask = {...task, done: !task.done};
+        let clonedTask = { ...task, done: !task.done };
 
         // replace an element into the middle of an array
 
@@ -66,7 +68,7 @@ export default class TaskList extends React.Component {
         //     }
         // }
 
-        let index = this.state.tasks.findIndex(function(t){
+        let index = this.state.tasks.findIndex(function (t) {
             if (t._id === clonedTask._id) {
                 return true;
             } else {
@@ -82,15 +84,81 @@ export default class TaskList extends React.Component {
         // })
 
         this.setState({
-            tasks: [ 
-                    ...this.state.tasks.slice(0, index),
-                    clonedTask,
-                    ...this.state.tasks.slice(index+1)
-                ]
+            tasks: [
+                ...this.state.tasks.slice(0, index),
+                clonedTask,
+                ...this.state.tasks.slice(index + 1)
+            ]
         })
 
-  
-  
+
+
+    }
+
+    beginEditTask = (task) => {
+        this.setState({
+            taskBeingEdited: task,  // remember which task is being edited
+            modifiedTaskName: task.description // store the description of the task that is being edited (for 2 way binding with the textbox)
+        })
+    }
+
+    displayTask = (task) => {
+        return (
+            <li className="mt-3">
+                {task.description}
+                <input type="checkbox"
+                    className="form-check-input ms-3"
+                    checked={task.done}
+                    onChange={() => {
+                        this.updateTaskDone(task)
+                    }} />
+                <button className="ms-3 btn btn-primary btn-sm"
+                    onClick={() => {
+                        this.beginEditTask(task);
+                    }}
+
+                >Edit</button>
+            </li>
+        )
+    }
+
+    displayEditTask = (task) => {
+        return (<li className="mt-3">
+           <input type="text" name="modifiedTaskName" value={this.state.modifiedTaskName} onChange={this.updateFormField}/>
+           <button onClick={this.updateTask} 
+                   className="btn btn-primary btn-sm ms-3">Update</button>
+        </li>)
+    }
+
+    updateTask = () => {
+        const modifiedTask = {
+            ...this.state.taskBeingEdited,  // copy the key/value pairs from the original task object
+            description: this.state.modifiedTaskName // update the description
+        }
+
+        // update in the middle of an array 
+
+        // 0. find the index of the task that we want to update
+        // let index = this.state.tasks.findIndex( t => t._id === modifiedTask._id);
+        let index = this.state.tasks.findIndex(function(t){
+            if (t._id===modifiedTask._id) {
+                return true;
+            } else {
+                return false;
+            }
+        })
+
+        // 1. clone the existing array
+        let cloned = this.state.tasks.slice();
+
+        // 2. modify the array
+        cloned.splice(index, 1, modifiedTask);
+
+        // 3. replace the original array in the state with the modified one
+        this.setState({
+            tasks: cloned,
+            taskBeingEdited: null
+        })
     }
 
     render() {
@@ -98,16 +166,13 @@ export default class TaskList extends React.Component {
             <h1>Todo List</h1>
             {
                 this.state.tasks.map(t => (<React.Fragment key={t._id}>
-                    <li>
-                        {t.description}
-                        <input type="checkbox"
-                               className="form-check-input ms-3" 
-                               checked={t.done}
-                               onChange={()=>{
-                                    this.updateTaskDone(t)
-                               }}/>
-                        <button className="btn btn-primary">Edit</button>
-                    </li>
+
+                    {this.state.taskBeingEdited === null || this.state.taskBeingEdited._id !== t._id ?
+                        this.displayTask(t)
+                        :
+                        this.displayEditTask(t)
+
+                    }
                 </React.Fragment>))
             }
             <h2 className="mt-3">Add a new Task</h2>
@@ -116,12 +181,12 @@ export default class TaskList extends React.Component {
                     Task Name:
                 </label>
                 <input type="text"
-                       className="form-control" 
-                       value={this.state.newTaskName}
-                       onChange={this.updateFormField}
-                       name="newTaskName"
+                    className="form-control"
+                    value={this.state.newTaskName}
+                    onChange={this.updateFormField}
+                    name="newTaskName"
                 />
-                <button className="mt-1 btn btn-primary" onClick={this.addNewTask}>Add</button> 
+                <button className="mt-1 btn btn-primary" onClick={this.addNewTask}>Add</button>
             </div>
         </React.Fragment>)
     }
