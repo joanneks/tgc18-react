@@ -106,6 +106,7 @@ export default class TaskList extends React.Component {
                                onChange={()=>{
                                     this.updateTaskDone(t)
                                }}/>
+                        <button className="btn btn-primary">Edit</button>
                     </li>
                 </React.Fragment>))
             }
