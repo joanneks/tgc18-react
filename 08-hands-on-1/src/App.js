@@ -23,8 +23,9 @@ export default class App extends React.Component {
     newUserName: "",
     newUserEmail: "",
     userBeingEdited: null,
-    modifedUserName:"",
-    modifiedUserEmail:""
+    userBeingDeleted: null,
+    modifedUserName: "",
+    modifiedUserEmail: ""
   };
 
   updateFormField = (event) => {
@@ -82,10 +83,10 @@ export default class App extends React.Component {
     return (
       <React.Fragment>
         <div>
-          <input type="text" name="modifiedUserName" value={this.state.modifiedUserName} onChange={this.updateFormField}/>
+          <input type="text" name="modifiedUserName" value={this.state.modifiedUserName} onChange={this.updateFormField} />
         </div>
         <div>
-          <input type="text" name="modifiedUserEmail" value={this.state.modifiedUserEmail} onChange={this.updateFormField}/>
+          <input type="text" name="modifiedUserEmail" value={this.state.modifiedUserEmail} onChange={this.updateFormField} />
         </div>
         <button onClick={this.processUpdateUser}>Confirm</button>
       </React.Fragment>
@@ -104,14 +105,14 @@ export default class App extends React.Component {
 
     // 0. find the index of the user that we want to replace
     let index = -1; // NOT FOUND
-    for (let i =0; i < this.state.users.length; i++) {
+    for (let i = 0; i < this.state.users.length; i++) {
       if (this.state.users[i]._id === modifiedUser._id) {
         index = i;
         break;
       }
     }
 
-    if (index===-1) {
+    if (index === -1) {
       return;
     }
 
@@ -119,7 +120,7 @@ export default class App extends React.Component {
     const cloned = [
       ...this.state.users.slice(0, index),
       modifiedUser,
-      ...this.state.users.slice(index+1)
+      ...this.state.users.slice(index + 1)
     ]
 
     this.setState({
@@ -128,6 +129,61 @@ export default class App extends React.Component {
     })
   }
 
+  displayDeleteUser = (user) => {
+    return (<React.Fragment>
+      Are you want the user? (user name: {user.name}) 
+      <button onClick={()=>{
+        this.processDeleteUser(user)
+      }}>Yes</button>
+      <button onClick={()=>{
+        this.setState({
+          userBeingDeleted: null
+        })
+      }}>No</button>
+    </React.Fragment>)
+  }
+
+  processDeleteUser = (user) => {
+    // find the index of the user to delete
+    let indexToDelete = this.state.users.findIndex( u => u._id === user._id);
+
+    if (indexToDelete === -1) {
+      return;
+    }
+
+    let cloned = this.state.users.slice();
+    cloned.splice(indexToDelete, 1);
+    this.setState({
+      users: cloned,
+      userBeingDeleted: null
+    })
+
+  }
+
+  // render() {
+  //   return (
+  //     <div className="App">
+  //       {this.state.users.map((user) => {
+  //         return (
+  //           <React.Fragment key={user._id}>
+  //             <div class="box">
+  //                {
+  //                   this.state.userBeingEdited === null || this.state.userBeingEdited._id !== user._id ?
+  //                     this.displayUser(user)
+  //                     :
+  //                     this.displayEditUser(user)
+  //                }
+
+
+  //             </div>
+  //           </React.Fragment>
+  //         );
+  //       })}
+  //       {this.renderAddUser()}
+  //     </div>
+  //   );
+  // }
+
   render() {
     return (
       <div className="App">
@@ -135,12 +191,18 @@ export default class App extends React.Component {
           return (
             <React.Fragment key={user._id}>
               <div class="box">
-                 {
-                    this.state.userBeingEdited === null || this.state.userBeingEdited._id !== user._id ?
-                      this.displayUser(user)
-                      :
-                      this.displayEditUser(user)
-                 }
+                {
+                  (() => {
+                    // if the current user being rendered is being edited or not
+                    if (this.state.userBeingEdited != null && this.state.userBeingEdited._id === user._id) {
+                      return this.displayEditUser(user)
+                    } else if (this.state.userBeingDeleted != null && this.state.userBeingDeleted._id === user._id) {
+                      return this.displayDeleteUser(user)
+                    } else {
+                      return this.displayUser(user);
+                    }
+                  })()
+                }
 
 
               </div>
@@ -191,5 +253,9 @@ export default class App extends React.Component {
     })
   };
 
-  deleteUser = (user) => { };
+  deleteUser = (user) => { 
+    this.setState({
+      userBeingDeleted: user
+    })
+  };
 }
