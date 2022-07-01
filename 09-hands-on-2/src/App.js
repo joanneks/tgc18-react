@@ -11,8 +11,8 @@ export default class App extends React.Component {
     total: 0
   };
 
-  updateField = (e) => {
-    this.setState({
+  updateField = async (e) => {
+    await this.setState({
       [e.target.name]: e.target.value
     });
   };
