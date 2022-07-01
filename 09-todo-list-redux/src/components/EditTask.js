@@ -3,7 +3,7 @@ import React from 'react'
 export default function EditTask(props){
     return(
         <React.Fragment>
-            <li class="list-group-item">
+            <li className="list-group-item">
                 <input type="text" 
                        name="modifiedTaskDescription"
                        value={props.modifiedDescription}

@@ -160,30 +160,6 @@ export default class App extends React.Component {
 
   }
 
-  // render() {
-  //   return (
-  //     <div className="App">
-  //       {this.state.users.map((user) => {
-  //         return (
-  //           <React.Fragment key={user._id}>
-  //             <div class="box">
-  //                {
-  //                   this.state.userBeingEdited === null || this.state.userBeingEdited._id !== user._id ?
-  //                     this.displayUser(user)
-  //                     :
-  //                     this.displayEditUser(user)
-  //                }
-
-
-  //             </div>
-  //           </React.Fragment>
-  //         );
-  //       })}
-  //       {this.renderAddUser()}
-  //     </div>
-  //   );
-  // }
-
   render() {
     return (
       <div className="App">
