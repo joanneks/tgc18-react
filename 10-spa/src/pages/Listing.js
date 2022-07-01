@@ -13,7 +13,7 @@ export default function Listing(props){
                             </h3>
                             <h4>Ingredients</h4>
                             <ul>
-                                {r.ingredients.map( i => <li>{i}</li>)}
+                                {r.ingredients.map( i => <li key={i}>{i}</li>)}
                             </ul>
                         </div>
                     </React.Fragment>
